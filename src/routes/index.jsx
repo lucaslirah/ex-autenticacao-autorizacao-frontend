@@ -12,11 +12,15 @@ import { api } from '../services/api';
 export function Routes() {
   const { signOut, user } = useAuth();
 
-  useEffect(() => {
-    api
-    .get("/users/validated")
-    .catch(error => signOut())
-  }, [])
+useEffect(() => {
+  api
+  .get("/users/validated")
+  .catch((error) => {
+    if(error.response?.status === 401){
+      signOut()
+    }
+  })
+}, [])
 
   function AccessRoutes(){
     switch(user.role){
